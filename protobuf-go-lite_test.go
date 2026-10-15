@@ -1,3 +1,6 @@
+// Modified by the raftseg authors: the test of DecodeStringUnsafe is removed
+// with it.
+
 package protobuf_go_lite
 
 import (
@@ -692,32 +695,5 @@ func TestDecodeBytes(t *testing.T) {
 	}
 	if string(result2) != string(data) {
 		t.Errorf("DecodeBytes nocopy got %v, want %v", result2, data)
-	}
-}
-
-func TestDecodeStringUnsafe(t *testing.T) {
-	s := "hello world"
-	buf := AppendVarint(nil, uint64(len(s)))
-	buf = append(buf, s...)
-
-	result, idx, err := DecodeStringUnsafe(buf, 0)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if result != s {
-		t.Errorf("DecodeStringUnsafe got %q, want %q", result, s)
-	}
-	if idx != len(buf) {
-		t.Errorf("DecodeStringUnsafe idx got %d, want %d", idx, len(buf))
-	}
-
-	// Test empty string
-	emptyBuf := AppendVarint(nil, 0)
-	result, _, err = DecodeStringUnsafe(emptyBuf, 0)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if result != "" {
-		t.Errorf("DecodeStringUnsafe empty got %q, want empty", result)
 	}
 }

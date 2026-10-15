@@ -1,10 +1,13 @@
+// Modified by the raftseg authors: import paths rewritten for this
+// fork's modules.
+
 package disable_json
 
 import (
 	sjson "encoding/json"
 	"testing"
 
-	"github.com/aperturerobotics/protobuf-go-lite/json"
+	"github.com/raftseg/protobuf-go-lite/json"
 )
 
 // TestDisableJson asserts that MessageDisableJson does not implement json.Unmarshal or json.Marshal.

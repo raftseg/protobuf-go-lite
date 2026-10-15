@@ -1,10 +1,13 @@
+// Modified by the raftseg authors: import paths rewritten for this
+// fork's modules.
+
 package empty_message
 
 import (
 	"encoding/json"
 	"testing"
 
-	"github.com/stretchr/testify/require"
+	"github.com/raftseg/protobuf-go-lite/internal/testutil/require"
 )
 
 var testData = Parent{

@@ -1,3 +1,6 @@
+// Modified by the raftseg authors: the checks of UnmarshalVTUnsafe, which
+// this fork does not generate, are removed.
+
 package proto2
 
 import (
@@ -12,10 +15,5 @@ func TestPackedFixed32MalformedLength(t *testing.T) {
 	var safeOut Fixed32Message
 	if err := safeOut.UnmarshalVT(wire); !errors.Is(err, io.ErrUnexpectedEOF) {
 		t.Fatalf("UnmarshalVT malformed packed fixed32 = %v, want ErrUnexpectedEOF", err)
-	}
-
-	var unsafeOut Fixed32Message
-	if err := unsafeOut.UnmarshalVTUnsafe(wire); !errors.Is(err, io.ErrUnexpectedEOF) {
-		t.Fatalf("UnmarshalVTUnsafe malformed packed fixed32 = %v, want ErrUnexpectedEOF", err)
 	}
 }

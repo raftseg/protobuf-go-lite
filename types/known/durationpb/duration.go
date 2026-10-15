@@ -1,10 +1,13 @@
+// Modified by the raftseg authors: import paths rewritten for this
+// fork's modules.
+
 package durationpb
 
 import (
 	"strconv"
 	"strings"
 
-	"github.com/aperturerobotics/protobuf-go-lite/json"
+	"github.com/raftseg/protobuf-go-lite/json"
 )
 
 // MarshalJSON marshals the Duration to JSON.

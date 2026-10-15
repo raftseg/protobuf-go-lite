@@ -1,9 +1,12 @@
+// Modified by the raftseg authors: import paths rewritten for this
+// fork's modules.
+
 package proto3opt
 
 import (
 	"testing"
 
-	"github.com/stretchr/testify/require"
+	"github.com/raftseg/protobuf-go-lite/internal/testutil/require"
 )
 
 func TestEmptyBytesMarshalling(t *testing.T) {

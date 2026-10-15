@@ -32,7 +32,7 @@ syntax = "proto3";
 
 package google.protobuf;
 
-option go_package = "github.com/aperturerobotics/protobuf-go-lite/types/known/timestamppb;timestamppb";
+option go_package = "github.com/raftseg/protobuf-go-lite/types/known/timestamppb;timestamppb";
 
 // A Timestamp represents a point in time independent of any time zone or local
 // calendar, encoded as a count of seconds and fractions of seconds at

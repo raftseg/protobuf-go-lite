@@ -1,3 +1,6 @@
+// Modified by the raftseg authors: import paths rewritten for this
+// fork's modules.
+
 package registry
 
 import (
@@ -5,8 +8,8 @@ import (
 	"sync"
 	"testing"
 
-	protobuf_go_lite "github.com/aperturerobotics/protobuf-go-lite"
-	"github.com/aperturerobotics/protobuf-go-lite/types/known/anypb"
+	protobuf_go_lite "github.com/raftseg/protobuf-go-lite"
+	"github.com/raftseg/protobuf-go-lite/types/known/anypb"
 )
 
 type stubMsg struct{}

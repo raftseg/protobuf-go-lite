@@ -32,7 +32,7 @@ syntax = "proto3";
 
 package google.protobuf;
 
-option go_package = "github.com/aperturerobotics/protobuf-go-lite/types/known/anypb;anypb";
+option go_package = "github.com/raftseg/protobuf-go-lite/types/known/anypb;anypb";
 
 // `Any` contains an arbitrary serialized protocol buffer message along with a
 // URL that describes the type of the serialized message.

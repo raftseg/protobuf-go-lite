@@ -1,0 +1,39 @@
+{
+  "comment": "Where this fork comes from, for SBOMs. Update cherryPicked with every commit taken from upstream. license is the module's; otherLicenses and copiedIn list the rest.",
+  "module": "github.com/aperturerobotics/protobuf-go-lite",
+  "version": "v0.19.0",
+  "repository": "https://github.com/aperturerobotics/protobuf-go-lite",
+  "commit": "561b6c171b0f46417480998b0907b547073967a7",
+  "sum": "h1:7Veh1XY7pkswacItBnTR+skvPyNIFdOPg0tb3X0Yd/E=",
+  "license": "BSD-3-Clause",
+  "copyright": "Aperture Robotics, LLC; Christian Stewart; PlanetScale Inc.; The GoGo Authors; The Go Authors",
+  "changes": "FORK.md",
+  "cherryPicked": [],
+  "otherLicenses": [
+    {
+      "path": "json",
+      "license": "Apache-2.0",
+      "origin": "https://github.com/TheThingsIndustries/protoc-gen-go-json"
+    }
+  ],
+  "copiedIn": [
+    {
+      "module": "github.com/aperturerobotics/json-iterator-lite",
+      "version": "v1.1.0",
+      "repository": "https://github.com/aperturerobotics/json-iterator-lite",
+      "license": "MIT",
+      "copyright": "Christian Stewart",
+      "path": "internal/jsoniter",
+      "scope": "compiled into products"
+    },
+    {
+      "module": "github.com/google/go-cmp",
+      "version": "v0.7.0",
+      "repository": "https://github.com/google/go-cmp",
+      "license": "BSD-3-Clause",
+      "copyright": "The Go Authors",
+      "path": "internal/gocmp",
+      "scope": "tests only"
+    }
+  ]
+}

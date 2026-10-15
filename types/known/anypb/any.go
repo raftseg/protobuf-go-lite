@@ -1,15 +1,18 @@
+// Modified by the raftseg authors: import paths rewritten for this
+// fork's modules.
+
 package anypb
 
 import (
 	"errors"
 	fmt "fmt"
 
-	protobuf_go_lite "github.com/aperturerobotics/protobuf-go-lite"
-	"github.com/aperturerobotics/protobuf-go-lite/json"
-	anypb_resolver "github.com/aperturerobotics/protobuf-go-lite/types/known/anypb/resolver"
-	"github.com/aperturerobotics/protobuf-go-lite/types/known/durationpb"
-	"github.com/aperturerobotics/protobuf-go-lite/types/known/structpb"
-	"github.com/aperturerobotics/protobuf-go-lite/types/known/timestamppb"
+	protobuf_go_lite "github.com/raftseg/protobuf-go-lite"
+	"github.com/raftseg/protobuf-go-lite/json"
+	anypb_resolver "github.com/raftseg/protobuf-go-lite/types/known/anypb/resolver"
+	"github.com/raftseg/protobuf-go-lite/types/known/durationpb"
+	"github.com/raftseg/protobuf-go-lite/types/known/structpb"
+	"github.com/raftseg/protobuf-go-lite/types/known/timestamppb"
 )
 
 // MessageTypeResolver is an interface for looking up messages.

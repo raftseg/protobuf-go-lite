@@ -1,3 +1,6 @@
+// Modified by the raftseg authors: import paths rewritten for this
+// fork's modules.
+
 package timestamppb
 
 import (
@@ -6,7 +9,7 @@ import (
 	"strings"
 	time "time"
 
-	"github.com/aperturerobotics/protobuf-go-lite/json"
+	"github.com/raftseg/protobuf-go-lite/json"
 )
 
 // ErrEmptyTimestamp is returned from Validate if the timestamp was empty.

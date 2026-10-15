@@ -1,3 +1,6 @@
+// Modified by the raftseg authors: import paths rewritten for this
+// fork's modules.
+
 package structpb
 
 import (
@@ -7,8 +10,8 @@ import (
 	"slices"
 	"strconv"
 
-	jsoniter "github.com/aperturerobotics/json-iterator-lite"
-	"github.com/aperturerobotics/protobuf-go-lite/json"
+	jsoniter "github.com/raftseg/protobuf-go-lite/internal/jsoniter"
+	"github.com/raftseg/protobuf-go-lite/json"
 )
 
 // ErrJSONNotSupported was returned before structured JSON values were supported.

@@ -1,3 +1,6 @@
+// Modified by the raftseg authors: import paths rewritten for this
+// fork's modules.
+
 // Package registry indexes generated protobuf-go-lite message constructors and
 // their statically generated custom options.
 package registry
@@ -9,8 +12,8 @@ import (
 	"strings"
 	"sync"
 
-	protobuf_go_lite "github.com/aperturerobotics/protobuf-go-lite"
-	anypb_resolver "github.com/aperturerobotics/protobuf-go-lite/types/known/anypb/resolver"
+	protobuf_go_lite "github.com/raftseg/protobuf-go-lite"
+	anypb_resolver "github.com/raftseg/protobuf-go-lite/types/known/anypb/resolver"
 )
 
 // ErrNotFound is returned when a message type is not registered.

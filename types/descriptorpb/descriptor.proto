@@ -40,7 +40,7 @@ syntax = "proto2";
 
 package google.protobuf;
 
-option go_package = "github.com/aperturerobotics/protobuf-go-lite/types/descriptorpb;descriptorpb";
+option go_package = "github.com/raftseg/protobuf-go-lite/types/descriptorpb;descriptorpb";
 
 // descriptor.proto must be optimized for speed because reflection-based
 // algorithms don't work during bootstrapping.

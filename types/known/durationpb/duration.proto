@@ -32,7 +32,7 @@ syntax = "proto3";
 
 package google.protobuf;
 
-option go_package = "github.com/aperturerobotics/protobuf-go-lite/types/known/durationpb;durationpb";
+option go_package = "github.com/raftseg/protobuf-go-lite/types/known/durationpb;durationpb";
 
 // A Duration represents a signed, fixed-length span of time represented
 // as a count of seconds and fractions of seconds at nanosecond

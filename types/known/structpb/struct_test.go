@@ -1,6 +1,9 @@
 // Copyright 2020 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
+//
+// Modified by the raftseg authors: import paths rewritten for this
+// fork's modules; a local named string type replaces protoreflect.Name.
 
 package structpb_test
 
@@ -8,12 +11,15 @@ import (
 	"math"
 	"testing"
 
-	"github.com/google/go-cmp/cmp"
-	"github.com/google/go-cmp/cmp/cmpopts"
-	"google.golang.org/protobuf/reflect/protoreflect"
+	"github.com/raftseg/protobuf-go-lite/internal/gocmp/cmp"
+	"github.com/raftseg/protobuf-go-lite/internal/gocmp/cmp/cmpopts"
 
-	spb "github.com/aperturerobotics/protobuf-go-lite/types/known/structpb"
+	spb "github.com/raftseg/protobuf-go-lite/types/known/structpb"
 )
+
+// namedString stands in for protoreflect.Name, upstream's example of a
+// named string type, which this module does not have.
+type namedString string
 
 func TestToStruct(t *testing.T) {
 	tests := []struct {
@@ -73,7 +79,7 @@ func TestToStruct(t *testing.T) {
 		in:      map[string]any{"<invalid UTF-8>": "\xde\xad\xbe\xef"},
 		wantErr: cmpopts.AnyError,
 	}, {
-		in:      map[string]any{"key": protoreflect.Name("named string")},
+		in:      map[string]any{"key": namedString("named string")},
 		wantErr: cmpopts.AnyError,
 	}}
 

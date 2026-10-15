@@ -1,8 +1,11 @@
+// Modified by the raftseg authors: import paths rewritten for this
+// fork's modules.
+
 // Package protogenlite provides a minimal protoc plugin model for generators
 // that only need file/service/method metadata and Go import qualification.
 package protogenlite
 
-import "github.com/aperturerobotics/protobuf-go-lite/types/descriptorpb"
+import "github.com/raftseg/protobuf-go-lite/types/descriptorpb"
 
 // GoImportPath identifies a Go package import path.
 type GoImportPath string

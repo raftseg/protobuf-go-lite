@@ -1,0 +1,58 @@
+protobuf-go-lite
+Copyright 2026 The raftseg authors.
+
+This repository is a fork of protobuf-go-lite and contains code from the
+third-party projects below, each under the license kept next to it.
+Every file modified by the raftseg authors says so in its header.
+
+./  (the whole repository except the directories listed below)
+    Origin:     protobuf-go-lite, github.com/aperturerobotics/protobuf-go-lite
+                v0.19.0, tag v0.19.0, commit
+                561b6c171b0f46417480998b0907b547073967a7
+    Copyright:  Aperture Robotics, LLC; Christian Stewart; PlanetScale Inc.;
+                The GoGo Authors; The Go Authors
+    License:    BSD 3-Clause (LICENSE), with Google's patent grant (PATENTS)
+    Changes:
+      - The generator and the packages only it uses are moved to gen/, a
+        module of their own; import paths are rewritten accordingly and to
+        this fork's modules and raftseg/protobuf-go.
+      - The runtime requires nothing and uses neither unsafe nor reflect:
+        dependencies are copied in (below) or replaced, the unsafe
+        decoding feature and DecodeStringUnsafe are removed.
+      - Fixes to decoding and encoding, found by comparison with Google's
+        implementation, and a limit on message nesting.
+      - Deterministic generator output, and a tool that regenerates every
+        generated file.
+      - Repository plumbing and the TypeScript bindings were removed.
+        README.md was renamed to UPSTREAM-README.md.
+      FORK.md lists and explains each change.
+
+json/
+    Origin:     as above; upstream forked it from
+                github.com/TheThingsIndustries/protoc-gen-go-json
+    License:    Apache License 2.0 (json/LICENSE, json/UPSTREAM)
+
+internal/jsoniter/
+    Origin:     github.com/aperturerobotics/json-iterator-lite v1.1.0
+    Copyright:  Christian Stewart
+    License:    MIT (internal/jsoniter/LICENSE)
+    Changes:    A number's text is copied into a string instead of aliased
+                with unsafe; testify replaced by internal/testutil; gofmt.
+
+internal/gocmp/  (used by tests only)
+    Origin:     github.com/google/go-cmp v0.7.0
+    Copyright:  The Go Authors
+    License:    BSD 3-Clause (internal/gocmp/LICENSE)
+    Changes:    The cmp tree without its tests, with import paths rewritten
+                to this module.
+
+gen/cmd/protoc-gen-go-lite/testdata/src/google/protobuf/go_features.proto
+    (used by tests only)
+    Origin:     google.golang.org/protobuf v1.36.11, src/
+    Copyright:  Google Inc.
+    License:    BSD 3-Clause (LICENSE)
+
+internal/testutil/, internal/depcheck/, gen/internal/depcheck/,
+gen/internal/compat/, gen/internal/tools/, and the files named
+fork_test.go and recursion_test.go
+    Written by the raftseg authors, under this repository's LICENSE.

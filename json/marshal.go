@@ -1,5 +1,8 @@
 // Copyright © 2021 The Things Industries B.V.
 // SPDX-License-Identifier: Apache-2.0
+//
+// Modified by the raftseg authors: import paths rewritten for this
+// fork's modules.
 
 package json
 
@@ -13,7 +16,7 @@ import (
 	"strings"
 	"time"
 
-	anypb_resolver "github.com/aperturerobotics/protobuf-go-lite/types/known/anypb/resolver"
+	anypb_resolver "github.com/raftseg/protobuf-go-lite/types/known/anypb/resolver"
 )
 
 // Marshaler is the interface implemented by types that are supported by this plugin.

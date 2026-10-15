@@ -1,0 +1,91 @@
+name: test
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  PROTOC_VERSION: "34.1"
+  PROTOC_SHA256: af27ea66cd26938fe48587804ca7d4817457a08350021a1c6e23a27ccc8c6904
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        go: ["1.24.x", "1.27.x"]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: ${{ matrix.go }}
+          cache: false
+      - name: install protoc
+        run: |
+          curl -sSLo "$RUNNER_TEMP/protoc.zip" "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip"
+          echo "${PROTOC_SHA256}  $RUNNER_TEMP/protoc.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/protoc.zip" -d "$RUNNER_TEMP/protoc"
+          echo "$RUNNER_TEMP/protoc/bin" >> "$GITHUB_PATH"
+      - name: gofmt
+        run: test -z "$(gofmt -l .)" || { gofmt -l .; exit 1; }
+      - name: runtime
+        run: |
+          go vet ./...
+          go test -count=1 ./...
+          go test -count=1 -short -race ./...
+          GOARCH=386 go test -count=1 ./...
+      - name: generator
+        working-directory: gen
+        run: |
+          go mod verify
+          go vet ./...
+          go test -count=1 ./...
+          go test -count=1 -short -race ./...
+
+  # Every generated file is what the generator makes.
+  regenerate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: "1.27.x"
+          cache: false
+      - name: install protoc
+        run: |
+          curl -sSLo "$RUNNER_TEMP/protoc.zip" "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip"
+          echo "${PROTOC_SHA256}  $RUNNER_TEMP/protoc.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/protoc.zip" -d "$RUNNER_TEMP/protoc"
+          echo "$RUNNER_TEMP/protoc/bin" >> "$GITHUB_PATH"
+      - name: regenerate
+        working-directory: gen
+        run: |
+          go run ./internal/tools/regenerate
+          git status --porcelain
+          test -z "$(git status --porcelain)"
+
+  # A longer comparison with Google's implementation, on fresh seeds.
+  compat:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: "1.27.x"
+          cache: false
+      - name: install protoc
+        run: |
+          curl -sSLo "$RUNNER_TEMP/protoc.zip" "https://github.com/protocolbuffers/protobuf/releases/download/v${PROTOC_VERSION}/protoc-${PROTOC_VERSION}-linux-x86_64.zip"
+          echo "${PROTOC_SHA256}  $RUNNER_TEMP/protoc.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/protoc.zip" -d "$RUNNER_TEMP/protoc"
+          echo "$RUNNER_TEMP/protoc/bin" >> "$GITHUB_PATH"
+      - name: compare
+        working-directory: gen
+        run: |
+          for seed in $(seq "$GITHUB_RUN_NUMBER" 7 $((GITHUB_RUN_NUMBER + 35))); do
+            echo "seed $seed"
+            COMPAT_SEED=$seed COMPAT_ITERATIONS=20000 go test -count=1 -timeout 30m ./internal/compat
+          done

@@ -1,9 +1,12 @@
+// Modified by the raftseg authors: import paths rewritten for this
+// fork's modules.
+
 package anypb_resolver
 
 import (
 	"errors"
 
-	protobuf_go_lite "github.com/aperturerobotics/protobuf-go-lite"
+	protobuf_go_lite "github.com/raftseg/protobuf-go-lite"
 )
 
 // ErrNoAnyTypeResolver is returned if no resolver was provided for the Any type.

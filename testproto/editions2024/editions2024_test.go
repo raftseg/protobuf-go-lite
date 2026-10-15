@@ -1,3 +1,6 @@
+// Modified by the raftseg authors: the checks of UnmarshalVTUnsafe, which
+// this fork does not generate, are removed.
+
 package editions2024
 
 import (
@@ -34,13 +37,6 @@ func TestEdition2024GeneratedBehavior(t *testing.T) {
 	if got.DelimitedGroup == nil || got.DelimitedGroup.GetLabel() != "group" {
 		t.Fatalf("delimited group round trip failed: %#v", got.DelimitedGroup)
 	}
-	var gotUnsafe Edition2024Fixture
-	if err := gotUnsafe.UnmarshalVTUnsafe(wire); err != nil {
-		t.Fatalf("unsafe unmarshal: %v", err)
-	}
-	if gotUnsafe.DelimitedGroup == nil || gotUnsafe.DelimitedGroup.GetLabel() != "group" {
-		t.Fatalf("unsafe delimited group round trip failed: %#v", gotUnsafe.DelimitedGroup)
-	}
 	if !msg.EqualVT(msg.CloneVT()) {
 		t.Fatal("clone/equal mismatch")
 	}
@@ -65,9 +61,5 @@ func TestEdition2024GeneratedBehavior(t *testing.T) {
 	var invalid Edition2024Fixture
 	if err := invalid.UnmarshalVT(invalidUTF8); err == nil || !strings.Contains(err.Error(), "invalid UTF-8") {
 		t.Fatalf("safe unmarshal invalid UTF-8 error = %v", err)
-	}
-	var invalidUnsafe Edition2024Fixture
-	if err := invalidUnsafe.UnmarshalVTUnsafe(invalidUTF8); err == nil || !strings.Contains(err.Error(), "invalid UTF-8") {
-		t.Fatalf("unsafe unmarshal invalid UTF-8 error = %v", err)
 	}
 }

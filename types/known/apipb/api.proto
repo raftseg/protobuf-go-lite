@@ -35,7 +35,7 @@ package google.protobuf;
 import "google/protobuf/source_context.proto";
 import "google/protobuf/type.proto";
 
-option go_package = "github.com/aperturerobotics/protobuf-go-lite/types/known/apipb;apipb";
+option go_package = "github.com/raftseg/protobuf-go-lite/types/known/apipb;apipb";
 
 // Api is a light-weight descriptor for an API Interface.
 //

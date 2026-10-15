@@ -1,3 +1,6 @@
+// Modified by the raftseg authors: import paths rewritten for this
+// fork's modules.
+
 package protogenlite
 
 import (
@@ -9,8 +12,8 @@ import (
 	"unicode"
 	"unicode/utf8"
 
-	"github.com/aperturerobotics/protobuf-go-lite/types/descriptorpb"
-	pluginpb "github.com/aperturerobotics/protobuf-go-lite/types/pluginpb"
+	"github.com/raftseg/protobuf-go-lite/types/descriptorpb"
+	pluginpb "github.com/raftseg/protobuf-go-lite/types/pluginpb"
 )
 
 // Options configures a plugin run.
@@ -270,27 +273,27 @@ func deriveGoPackage(file *descriptorpb.FileDescriptorProto) (GoImportPath, stri
 func wellKnownType(fileName string) (string, string, bool) {
 	switch fileName {
 	case "google/protobuf/any.proto":
-		return "github.com/aperturerobotics/protobuf-go-lite/types/known/anypb", "anypb", true
+		return "github.com/raftseg/protobuf-go-lite/types/known/anypb", "anypb", true
 	case "google/protobuf/api.proto":
-		return "github.com/aperturerobotics/protobuf-go-lite/types/known/apipb", "apipb", true
+		return "github.com/raftseg/protobuf-go-lite/types/known/apipb", "apipb", true
 	case "google/protobuf/duration.proto":
-		return "github.com/aperturerobotics/protobuf-go-lite/types/known/durationpb", "durationpb", true
+		return "github.com/raftseg/protobuf-go-lite/types/known/durationpb", "durationpb", true
 	case "google/protobuf/empty.proto":
-		return "github.com/aperturerobotics/protobuf-go-lite/types/known/emptypb", "emptypb", true
+		return "github.com/raftseg/protobuf-go-lite/types/known/emptypb", "emptypb", true
 	case "google/protobuf/source_context.proto":
-		return "github.com/aperturerobotics/protobuf-go-lite/types/known/sourcecontextpb", "sourcecontextpb", true
+		return "github.com/raftseg/protobuf-go-lite/types/known/sourcecontextpb", "sourcecontextpb", true
 	case "google/protobuf/struct.proto":
-		return "github.com/aperturerobotics/protobuf-go-lite/types/known/structpb", "structpb", true
+		return "github.com/raftseg/protobuf-go-lite/types/known/structpb", "structpb", true
 	case "google/protobuf/timestamp.proto":
-		return "github.com/aperturerobotics/protobuf-go-lite/types/known/timestamppb", "timestamppb", true
+		return "github.com/raftseg/protobuf-go-lite/types/known/timestamppb", "timestamppb", true
 	case "google/protobuf/type.proto":
-		return "github.com/aperturerobotics/protobuf-go-lite/types/known/typepb", "typepb", true
+		return "github.com/raftseg/protobuf-go-lite/types/known/typepb", "typepb", true
 	case "google/protobuf/wrappers.proto":
-		return "github.com/aperturerobotics/protobuf-go-lite/types/known/wrapperspb", "wrapperspb", true
+		return "github.com/raftseg/protobuf-go-lite/types/known/wrapperspb", "wrapperspb", true
 	case "google/protobuf/descriptor.proto":
-		return "github.com/aperturerobotics/protobuf-go-lite/types/descriptorpb", "descriptorpb", true
+		return "github.com/raftseg/protobuf-go-lite/types/descriptorpb", "descriptorpb", true
 	case "google/protobuf/compiler/plugin.proto":
-		return "github.com/aperturerobotics/protobuf-go-lite/types/pluginpb", "google_protobuf_compiler", true
+		return "github.com/raftseg/protobuf-go-lite/types/pluginpb", "google_protobuf_compiler", true
 	default:
 		return "", "", false
 	}

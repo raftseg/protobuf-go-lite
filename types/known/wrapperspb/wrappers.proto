@@ -42,7 +42,7 @@ syntax = "proto3";
 
 package google.protobuf;
 
-option go_package = "github.com/aperturerobotics/protobuf-go-lite/types/known/wrapperspb;wrapperspb";
+option go_package = "github.com/raftseg/protobuf-go-lite/types/known/wrapperspb;wrapperspb";
 
 // Wrapper message for `double`.
 //

@@ -1,3 +1,6 @@
+// Modified by the raftseg authors: import paths rewritten for this
+// fork's modules.
+
 package structpb_test
 
 import (
@@ -5,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/aperturerobotics/protobuf-go-lite/types/known/structpb"
+	"github.com/raftseg/protobuf-go-lite/types/known/structpb"
 )
 
 // TestValueJSONRoundTrip preserves the kind of every JSON value through reuse.

@@ -1,6 +1,9 @@
+// Modified by the raftseg authors: import paths rewritten for this
+// fork's modules.
+
 package emptypb
 
-import "github.com/aperturerobotics/protobuf-go-lite/json"
+import "github.com/raftseg/protobuf-go-lite/json"
 
 // MarshalJSON marshals the Empty to JSON.
 func (x *Empty) MarshalJSON() ([]byte, error) {

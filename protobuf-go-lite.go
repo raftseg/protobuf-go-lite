@@ -1,3 +1,11 @@
+// Modified by the raftseg authors: DecodeStringUnsafe, which aliased a
+// string with its input through package unsafe, is removed, with the
+// unmarshal_unsafe feature that used it; RecursionLimit and
+// ErrRecursionLimit bound how deeply generated decoders let messages nest;
+// Skip validates unknown fields as google.golang.org/protobuf does
+// (protowire.ConsumeFieldValue); SizeFixed32NonZero and SizeFixed64NonZero
+// count a float of -0, which is encoded.
+
 package protobuf_go_lite
 
 import (
@@ -13,7 +21,8 @@ import (
 	"slices"
 	"strconv"
 	"strings"
-	"unsafe"
+
+	"github.com/raftseg/protobuf-go-lite/encoding/protowire"
 )
 
 var (
@@ -23,7 +32,16 @@ var (
 	ErrIntOverflow = errors.New("proto: integer overflow")
 	// ErrUnexpectedEndOfGroup is returned when decoding a group end without a corresponding group start.
 	ErrUnexpectedEndOfGroup = errors.New("proto: unexpected end of group")
+	// ErrRecursionLimit is returned when decoding messages nested more than
+	// RecursionLimit deep.
+	ErrRecursionLimit = errors.New("proto: exceeded maximum recursion depth")
 )
+
+// RecursionLimit is how deeply UnmarshalVT lets messages nest, the outermost
+// one included: google.golang.org/protobuf's default. Without a limit,
+// recursion on crafted input (about 24 MB of nested messages) exhausts the
+// goroutine's stack, which kills the process.
+const RecursionLimit = 10000
 
 // Message is the base vtprotobuf message marshal/unmarshal interface.
 type Message interface {
@@ -910,20 +928,6 @@ func DecodeString(b []byte, idx int) (string, int, error) {
 	return string(b[start:end]), end, nil
 }
 
-// DecodeStringUnsafe decodes a length-prefixed string without copying.
-// The returned string shares memory with the input slice.
-// Assumes idx is within bounds (0 <= idx <= len(b)); generated code maintains this invariant.
-func DecodeStringUnsafe(b []byte, idx int) (string, int, error) {
-	start, end, err := DecodeLengthDelimited(b, idx)
-	if err != nil {
-		return "", 0, err
-	}
-	if start == end {
-		return "", end, nil
-	}
-	return unsafe.String(&b[start], end-start), end, nil
-}
-
 // PackedVarintElementCount returns the number of varint elements in a packed payload.
 func PackedVarintElementCount(b []byte) (n int) {
 	for _, v := range b {
@@ -1052,7 +1056,9 @@ func SizeFixed32Value(keySize int) int {
 
 // SizeFixed32NonZero returns the encoded field size for one implicit fixed32 value.
 func SizeFixed32NonZero[T sizeFixed32Number](keySize int, v T) int {
-	if v == 0 {
+	// A float of -0 is encoded, as in google.golang.org/protobuf: only +0
+	// is the zero value.
+	if v == 0 && !math.Signbit(float64(v)) {
 		return 0
 	}
 	return SizeFixed32Value(keySize)
@@ -1086,7 +1092,9 @@ func SizeFixed64Value(keySize int) int {
 
 // SizeFixed64NonZero returns the encoded field size for one implicit fixed64 value.
 func SizeFixed64NonZero[T sizeFixed64Number](keySize int, v T) int {
-	if v == 0 {
+	// A float of -0 is encoded, as in google.golang.org/protobuf: only +0
+	// is the zero value.
+	if v == 0 && !math.Signbit(float64(v)) {
 		return 0
 	}
 	return SizeFixed64Value(keySize)
@@ -1218,82 +1226,35 @@ func SizeGroup(keySize, msgSize int) int {
 
 // Skip the first record of the byte slice and return the offset of the next record.
 func Skip(dAtA []byte) (n int, err error) {
-	l := len(dAtA)
-	iNdEx := 0
-	depth := 0
-	for iNdEx < l {
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return 0, ErrIntOverflow
-			}
-			if iNdEx >= l {
-				return 0, io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= (uint64(b) & 0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		wireType := int(wire & 0x7) //nolint:gosec
-		switch wireType {
-		case 0:
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return 0, ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return 0, io.ErrUnexpectedEOF
-				}
-				iNdEx++
-				if dAtA[iNdEx-1] < 0x80 {
-					break
-				}
-			}
-		case 1:
-			iNdEx += 8
-		case 2:
-			var length int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return 0, ErrIntOverflow
-				}
-				if iNdEx >= l {
-					return 0, io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				length |= (int(b) & 0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if length < 0 {
-				return 0, ErrInvalidLength
-			}
-			iNdEx += length
-		case 3:
-			depth++
-		case 4:
-			if depth == 0 {
-				return 0, ErrUnexpectedEndOfGroup
-			}
-			depth--
-		case 5:
-			iNdEx += 4
-		default:
-			return 0, fmt.Errorf("proto: illegal wireType %d", wireType)
-		}
-		if iNdEx < 0 {
-			return 0, ErrInvalidLength
-		}
-		if depth == 0 {
-			return iNdEx, nil
-		}
+	// As google.golang.org/protobuf does for unknown fields: the tag's field
+	// number must be valid, a group must end with its own field number and
+	// nest at most protowire.DefaultRecursionLimit deep, and varints must
+	// not overflow.
+	num, typ, tagLen := protowire.ConsumeTag(dAtA)
+	if tagLen < 0 {
+		return 0, skipError(tagLen)
 	}
-	return 0, io.ErrUnexpectedEOF
+	valueLen := protowire.ConsumeFieldValue(num, typ, dAtA[tagLen:])
+	if valueLen < 0 {
+		return 0, skipError(valueLen)
+	}
+	return tagLen + valueLen, nil
+}
+
+// skipError maps a protowire error code to this package's errors. The codes
+// are protowire's (unexported) errCode values.
+func skipError(code int) error {
+	switch code {
+	case -1: // errCodeTruncated
+		return io.ErrUnexpectedEOF
+	case -3: // errCodeOverflow
+		return ErrIntOverflow
+	case -5: // errCodeEndGroup
+		return ErrUnexpectedEndOfGroup
+	case -6: // errCodeRecursionDepth
+		return ErrRecursionLimit
+	}
+	return fmt.Errorf("proto: %w", protowire.ParseError(code))
 }
 
 // SkipWithin skips one encoded field at idx and verifies it stays within limit.

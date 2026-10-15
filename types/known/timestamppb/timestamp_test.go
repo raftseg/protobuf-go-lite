@@ -1,6 +1,9 @@
 // Copyright 2020 The Go Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
+//
+// Modified by the raftseg authors: import paths rewritten for this
+// fork's modules.
 
 package timestamppb_test
 
@@ -10,11 +13,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/aperturerobotics/protobuf-go-lite/internal/detrand"
-	"github.com/google/go-cmp/cmp"
-	"github.com/google/go-cmp/cmp/cmpopts"
+	"github.com/raftseg/protobuf-go-lite/internal/detrand"
+	"github.com/raftseg/protobuf-go-lite/internal/gocmp/cmp"
+	"github.com/raftseg/protobuf-go-lite/internal/gocmp/cmp/cmpopts"
 
-	tspb "github.com/aperturerobotics/protobuf-go-lite/types/known/timestamppb"
+	tspb "github.com/raftseg/protobuf-go-lite/types/known/timestamppb"
 )
 
 func init() {

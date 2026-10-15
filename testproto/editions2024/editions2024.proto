@@ -2,7 +2,7 @@ edition = "2024";
 
 package editions2024;
 
-option go_package = "github.com/aperturerobotics/protobuf-go-lite/testproto/editions2024;editions2024";
+option go_package = "github.com/raftseg/protobuf-go-lite/testproto/editions2024;editions2024";
 
 message Edition2024Fixture {
   enum State {

@@ -1,9 +1,12 @@
+// Modified by the raftseg authors: import paths rewritten for this
+// fork's modules.
+
 package goscripttest
 
 import (
 	"testing"
 
-	sizebaseline "github.com/aperturerobotics/protobuf-go-lite/testproto/sizebaseline"
+	sizebaseline "github.com/raftseg/protobuf-go-lite/testproto/sizebaseline"
 )
 
 func TestGoScriptSizeBaseline(t *testing.T) {

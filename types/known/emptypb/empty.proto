@@ -32,7 +32,7 @@ syntax = "proto3";
 
 package google.protobuf;
 
-option go_package = "github.com/aperturerobotics/protobuf-go-lite/types/known/emptypb;emptypb";
+option go_package = "github.com/raftseg/protobuf-go-lite/types/known/emptypb;emptypb";
 
 // A generic empty message that you can re-use to avoid defining duplicated
 // empty messages in your APIs. A typical example is to use it as the request

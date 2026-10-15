@@ -32,7 +32,7 @@ syntax = "proto3";
 
 package google.protobuf;
 
-option go_package = "github.com/aperturerobotics/protobuf-go-lite/types/known/sourcecontextpb;sourcecontextpb";
+option go_package = "github.com/raftseg/protobuf-go-lite/types/known/sourcecontextpb;sourcecontextpb";
 
 // `SourceContext` represents information about the source of a
 // protobuf element, like the file in which it is defined.

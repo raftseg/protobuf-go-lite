@@ -1,3 +1,7 @@
+// Modified by the raftseg authors: import paths rewritten for this fork's
+// modules; the checks of UnmarshalVTUnsafe, which this fork does not
+// generate, are removed.
+
 package sizebaseline
 
 import (
@@ -8,12 +12,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/stretchr/testify/require"
+	"github.com/raftseg/protobuf-go-lite/internal/testutil/require"
 
-	"github.com/aperturerobotics/protobuf-go-lite/types/known/durationpb"
-	"github.com/aperturerobotics/protobuf-go-lite/types/known/structpb"
-	"github.com/aperturerobotics/protobuf-go-lite/types/known/timestamppb"
-	"github.com/aperturerobotics/protobuf-go-lite/types/known/wrapperspb"
+	"github.com/raftseg/protobuf-go-lite/types/known/durationpb"
+	"github.com/raftseg/protobuf-go-lite/types/known/structpb"
+	"github.com/raftseg/protobuf-go-lite/types/known/timestamppb"
+	"github.com/raftseg/protobuf-go-lite/types/known/wrapperspb"
 )
 
 var (
@@ -173,9 +177,6 @@ func TestSizeBaselineMapEntryTruncatedValue(t *testing.T) {
 
 	var safeOut SizeBaseline
 	require.ErrorIs(t, safeOut.UnmarshalVT(wire), io.ErrUnexpectedEOF)
-
-	var unsafeOut SizeBaseline
-	require.ErrorIs(t, unsafeOut.UnmarshalVTUnsafe(wire), io.ErrUnexpectedEOF)
 }
 
 func BenchmarkSizeBaselineMarshalVT(b *testing.B) {
